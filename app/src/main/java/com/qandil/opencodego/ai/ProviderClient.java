@@ -417,7 +417,7 @@ public final class ProviderClient {
         if (value instanceof JSONObject) return (JSONObject) value;
         if (value == null || value == JSONObject.NULL) return new JSONObject();
         try { return new JSONObject(String.valueOf(value)); }
-        catch (Exception ignored) { return new JSONObject().put("value", String.valueOf(value)); }
+        catch (Exception ignored) { return new JSONObject(java.util.Collections.singletonMap("value", String.valueOf(value))); }
     }
 
     private static String textContent(Object value) {
