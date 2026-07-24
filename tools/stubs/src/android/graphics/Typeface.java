@@ -1,0 +1,1 @@
+package android.graphics; public class Typeface { public static final Typeface MONOSPACE=null; public static final int BOLD=1,NORMAL=0; public static Typeface create(String n,int s){return null;} }

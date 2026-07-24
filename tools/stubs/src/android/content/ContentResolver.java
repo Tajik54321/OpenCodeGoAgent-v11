@@ -1,0 +1,1 @@
+package android.content; import android.net.Uri; import java.io.*; import android.database.Cursor; public class ContentResolver { public InputStream openInputStream(Uri u){return null;} public OutputStream openOutputStream(Uri u){return null;} public Cursor query(Uri u,String[] p,String s,String[] a,String so){return null;} }

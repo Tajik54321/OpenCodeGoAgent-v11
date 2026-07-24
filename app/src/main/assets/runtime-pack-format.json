@@ -1,0 +1,20 @@
+{
+  "format": 1,
+  "abi": "arm64-v8a",
+  "minSdk": 26,
+  "supportedNames": [
+    "php", "node", "python", "git", "composer", "npm",
+    "mariadb", "postgres", "redis", "ssh"
+  ],
+  "requiredManifestFields": ["format", "name", "version", "abi", "minSdk", "executables"],
+  "example": {
+    "format": 1,
+    "name": "php",
+    "version": "8.x",
+    "abi": "arm64-v8a",
+    "minSdk": 26,
+    "executables": {"php": "bin/php"},
+    "sha256": {"bin/php": "<sha256>"}
+  },
+  "notes": "Executables must target Android Bionic. SHA-256 entries are verified before activation."
+}

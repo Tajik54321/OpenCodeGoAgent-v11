@@ -1,0 +1,1 @@
+package android.widget; import android.content.Context; import android.view.*; public class HorizontalScrollView extends ViewGroup { public HorizontalScrollView(Context c){super(c);} public void setHorizontalScrollBarEnabled(boolean b){} public void setFillViewport(boolean b){} }

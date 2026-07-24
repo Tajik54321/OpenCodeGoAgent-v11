@@ -1,0 +1,1 @@
+package android.widget; import android.content.Context; import java.util.*; public class ArrayAdapter<T> { public ArrayAdapter(Context c,int r,List<T> i){} public ArrayAdapter(Context c,int r,T[] i){} public void setDropDownViewResource(int r){} }

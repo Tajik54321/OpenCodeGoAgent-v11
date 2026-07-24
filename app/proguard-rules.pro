@@ -1,0 +1,2 @@
+-keep class com.qandil.opencodego.** { *; }
+-dontwarn javax.annotation.**

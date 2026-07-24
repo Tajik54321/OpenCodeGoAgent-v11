@@ -1,0 +1,1 @@
+package android.widget; import android.content.Context; import android.view.View; public class Spinner extends AdapterView<ArrayAdapter<?>> { public Spinner(Context c){super(c);} public void setAdapter(ArrayAdapter<?> a){} public Object getSelectedItem(){return null;} public int getSelectedItemPosition(){return 0;} public void setSelection(int p){} }

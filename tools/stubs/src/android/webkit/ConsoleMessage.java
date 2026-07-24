@@ -1,0 +1,1 @@
+package android.webkit; public class ConsoleMessage { public String message(){return "";} public int lineNumber(){return 0;} public String sourceId(){return "";} }

@@ -1,0 +1,1 @@
+package android.os; public class Build { public static class VERSION { public static int SDK_INT=37;} public static class VERSION_CODES { public static final int O=26, TIRAMISU=33; } public static String[] SUPPORTED_ABIS={"arm64-v8a"}; }

@@ -1,0 +1,1 @@
+package android.util; public class DisplayMetrics { public float density=1; public int widthPixels=1080; }

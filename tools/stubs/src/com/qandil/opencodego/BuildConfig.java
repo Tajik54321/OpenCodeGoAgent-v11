@@ -1,0 +1,1 @@
+package com.qandil.opencodego; public final class BuildConfig { public static final boolean WRITABLE_RUNTIME_PACKS=true; }

@@ -1,0 +1,1 @@
+package android.content; public class ContentValues { public void put(String k,String v){} public void put(String k,Integer v){} public void put(String k,Long v){} public void put(String k,Double v){} public void put(String k,Float v){} public void put(String k,Boolean v){} public void put(String k,byte[] v){} public void putNull(String k){} }

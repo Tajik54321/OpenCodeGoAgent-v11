@@ -1,0 +1,1 @@
+package android; public final class R { public static final class layout { public static final int simple_spinner_item=1,simple_spinner_dropdown_item=2;} public static final class drawable { public static final int ic_media_play=1,ic_media_pause=2,ic_menu_close_clear_cancel=3;} }

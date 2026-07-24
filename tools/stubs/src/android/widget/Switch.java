@@ -1,0 +1,1 @@
+package android.widget; import android.content.Context; import android.widget.CompoundButton; public class Switch extends CompoundButton { public Switch(Context c){super(c);} }

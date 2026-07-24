@@ -1,0 +1,1 @@
+package android.widget; import android.content.Context; import android.view.View; public class Space extends View { public Space(Context c){super(c);} }
