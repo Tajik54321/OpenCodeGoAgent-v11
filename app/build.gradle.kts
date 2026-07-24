@@ -49,6 +49,7 @@ android {
         abortOnError = true
         checkReleaseBuilds = true
         warningsAsErrors = false
+        disable += "GestureBackNavigation"
     }
 
     packaging {
