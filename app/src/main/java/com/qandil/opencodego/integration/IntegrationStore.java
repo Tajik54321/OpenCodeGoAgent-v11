@@ -35,8 +35,7 @@ public final class IntegrationStore {
         JSONObject json() {
             return new JSONObject().put("id", id).put("name", name).put("baseUrl", baseUrl)
                     .put("username", username).put("directory", directory).put("enabled", enabled);
-        }
-    }
+            return json("id",id,"name",name,"baseUrl",baseUrl,"username",username,"directory",directory,"enabled",enabled);
 
     public static final class McpProfile {
         public String id;
@@ -57,8 +56,7 @@ public final class IntegrationStore {
             return new JSONObject().put("id", id).put("name", name).put("url", url)
                     .put("headers", headersJson).put("enabled", enabled);
         }
-    }
-
+            return json("id",id,"name",name,"url",url,"headers",headersJson,"enabled",enabled);
     private final File file;
     private final SecureStore secure;
 
@@ -121,7 +119,7 @@ public final class IntegrationStore {
         JSONObject root = root();
         JSONArray array = new JSONArray();
         for (OpenCodeProfile item : profiles) array.put(item.json());
-        root.put("opencode", array);
+        put(root,"opencode",array);
         write(root);
     }
 
@@ -141,7 +139,7 @@ public final class IntegrationStore {
         JSONObject root = root();
         JSONArray array = new JSONArray();
         for (McpProfile item : profiles) array.put(item.json());
-        root.put("mcp", array);
+        put(root,"mcp",array);
         write(root);
     }
 
@@ -149,7 +147,7 @@ public final class IntegrationStore {
         JSONArray array = new JSONArray();
         for (OpenCodeProfile profile : openCodeProfiles()) if (!profile.id.equals(id)) array.put(profile.json());
         secure.remove("integration.opencodeserver." + id);
-        JSONObject root = root().put("opencode", array);
+        JSONObject root = put(root(),"opencode",array);
         write(root);
     }
 
@@ -157,7 +155,7 @@ public final class IntegrationStore {
         JSONArray array = new JSONArray();
         for (McpProfile profile : mcpProfiles()) if (!profile.id.equals(id)) array.put(profile.json());
         secure.remove("integration.mcp.headers." + id);
-        JSONObject root = root().put("mcp", array);
+        JSONObject root = put(root(),"mcp",array);
         write(root);
     }
 
@@ -165,6 +163,9 @@ public final class IntegrationStore {
         try { return file.isFile() ? new JSONObject(ProjectManager.read(file)) : new JSONObject(); }
         catch (Exception ignored) { return new JSONObject(); }
     }
+    private static JSONObject json(Object... p){ java.util.Map<String,Object> m=new java.util.LinkedHashMap<>(); for(int i=0;i+1<p.length;i+=2)m.put(String.valueOf(p[i]),p[i+1]); return new JSONObject(m); }
+    private static JSONObject put(JSONObject j,String k,Object v){ try{j.put(k,v);return j;}catch(Exception e){throw new IllegalStateException(e);} }
+
 
     private void write(JSONObject root) {
         try { ProjectManager.write(file, root.toString(2)); }
