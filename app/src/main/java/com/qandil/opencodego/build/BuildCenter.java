@@ -26,14 +26,15 @@ public final class BuildCenter {
     }
 
     public JSONObject inspect(Project project) {
-        return new JSONObject()
-                .put("gradleWrapper", new File(project.root, "gradlew").isFile())
-                .put("settings", new File(project.root, "settings.gradle.kts").isFile()
-                        || new File(project.root, "settings.gradle").isFile())
-                .put("androidProject", new File(project.root, "app/build.gradle.kts").isFile()
-                        || new File(project.root, "app/build.gradle").isFile())
-                .put("jdkRuntime", runtimes.installed("jdk"))
-                .put("gradleRuntime", runtimes.installed("gradle"));
+        Map<String, Object> values = new LinkedHashMap<>();
+        values.put("gradleWrapper", new File(project.root, "gradlew").isFile());
+        values.put("settings", new File(project.root, "settings.gradle.kts").isFile()
+                || new File(project.root, "settings.gradle").isFile());
+        values.put("androidProject", new File(project.root, "app/build.gradle.kts").isFile()
+                || new File(project.root, "app/build.gradle").isFile());
+        values.put("jdkRuntime", runtimes.installed("jdk"));
+        values.put("gradleRuntime", runtimes.installed("gradle"));
+        return new JSONObject(values);
     }
 
     public ProcessSupervisor.Result localAndroidBuild(Project project, String variant, boolean bundle, int timeoutSeconds) throws Exception {
