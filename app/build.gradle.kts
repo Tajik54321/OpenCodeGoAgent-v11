@@ -4,12 +4,12 @@ plugins {
 
 android {
     namespace = "com.qandil.opencodego"
-    compileSdk = 37
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.qandil.opencodego"
         minSdk = 26
-        targetSdk = 37
+        targetSdk = 36
         versionCode = 1100
         versionName = "11.0.0"
     }
@@ -23,7 +23,7 @@ android {
         }
         create("modern") {
             dimension = "distribution"
-            targetSdk = 37
+            targetSdk = 36
             applicationIdSuffix = ".modern"
             versionNameSuffix = "-modern"
         }
