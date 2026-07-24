@@ -23,12 +23,15 @@ public final class RemoteManager {
     }
 
     public JSONObject capabilities() {
-        return new JSONObject()
-                .put("ssh", runtimes.executableAny("ssh", "ssh") != null)
-                .put("sftp", runtimes.executableAny("ssh", "sftp") != null)
-                .put("scp", runtimes.executableAny("ssh", "scp") != null)
-                .put("rsync", runtimes.executableAny("rsync", "rsync") != null)
-                .put("curl", runtimes.executableAny("curl", "curl") != null);
+        JSONObject j = new JSONObject();
+        try {
+            j.put("ssh", runtimes.executableAny("ssh", "ssh") != null);
+            j.put("sftp", runtimes.executableAny("ssh", "sftp") != null);
+            j.put("scp", runtimes.executableAny("ssh", "scp") != null);
+            j.put("rsync", runtimes.executableAny("rsync", "rsync") != null);
+            j.put("curl", runtimes.executableAny("curl", "curl") != null);
+        } catch (Exception ignored) {}
+        return j;
     }
 
     public String ssh(Project project, String host, int port, String user, String command) throws Exception {
