@@ -46,11 +46,24 @@ public final class CronManager {
         }
 
         JSONObject json() {
-            return new JSONObject().put("id", id).put("projectId", projectId).put("name", name)
-                    .put("scheduleType", scheduleType).put("intervalMinutes", intervalMinutes)
-                    .put("hour", hour).put("minute", minute).put("command", command)
-                    .put("enabled", enabled).put("lastRunAt", lastRunAt).put("nextRunAt", nextRunAt)
-                    .put("lastResult", lastResult);
+            JSONObject value = new JSONObject();
+            try {
+                value.put("id", id);
+                value.put("projectId", projectId);
+                value.put("name", name);
+                value.put("scheduleType", scheduleType);
+                value.put("intervalMinutes", intervalMinutes);
+                value.put("hour", hour);
+                value.put("minute", minute);
+                value.put("command", command);
+                value.put("enabled", enabled);
+                value.put("lastRunAt", lastRunAt);
+                value.put("nextRunAt", nextRunAt);
+                value.put("lastResult", lastResult);
+                return value;
+            } catch (Exception error) {
+                throw new IllegalStateException("Unable to create cron task JSON", error);
+            }
         }
 
         public List<String> commandList() {
