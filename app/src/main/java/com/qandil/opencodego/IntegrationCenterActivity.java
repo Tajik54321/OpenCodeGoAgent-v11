@@ -186,7 +186,7 @@ public final class IntegrationCenterActivity extends Activity {
         form.addView(Ui.labeledInput(this, "Зашифрованные HTTP-заголовки (JSON)", headers));
         new AlertDialog.Builder(this).setTitle("MCP Server").setView(form)
                 .setPositiveButton("Сохранить", (dialog, which) -> {
-                    new JSONObject(headers.getText().toString().trim().isEmpty() ? "{}" : headers.getText().toString());
+                    try { new JSONObject(headers.getText().toString().trim().isEmpty() ? "{}" : headers.getText().toString()); } catch (Exception e) { throw new IllegalArgumentException("Invalid JSON", e); }
                     profile.name = name.getText().toString().trim(); profile.url = url.getText().toString().trim();
                     profile.headersJson = headers.getText().toString().trim(); integrations.saveMcp(profile); rebuild();
                 }).setNegativeButton("Отмена", null)
@@ -356,10 +356,9 @@ public final class IntegrationCenterActivity extends Activity {
         card.addView(Ui.text(this, "Runtime capabilities", 19, Ui.TEXT, true));
         JSONArray values = new JSONArray();
         for (RuntimeManager.RuntimeInfo info : RuntimeManager.get(this).list()) {
-            values.put(new JSONObject().put("name", info.name).put("installed", info.installed)
-                    .put("version", info.version).put("problem", info.problem));
+            java.util.Map<String,Object> item = new java.util.LinkedHashMap<>(); item.put("name",info.name); item.put("installed",info.installed); item.put("version",info.version); item.put("problem",info.problem); values.put(new JSONObject(item));
         }
-        card.addView(Ui.text(this, values.toString(2), 11, Ui.MUTED, false));
+        card.addView(Ui.text(this, values.toString(), 11, Ui.MUTED, false));
         content.addView(card);
     }
 
@@ -387,8 +386,7 @@ public final class IntegrationCenterActivity extends Activity {
 
     private void showJson(String title, Object value) {
         runOnUiThread(() -> new AlertDialog.Builder(this).setTitle(title)
-                .setMessage(value instanceof JSONObject ? ((JSONObject) value).toString(2)
-                        : value instanceof JSONArray ? ((JSONArray) value).toString(2) : String.valueOf(value))
+                .setMessage(String.valueOf(value))
                 .setPositiveButton("OK", null).show());
     }
     private void showText(String title, String value) {
