@@ -80,7 +80,10 @@ public final class LineDiff {
     public static JSONArray json(String before, String after) {
         JSONArray array = new JSONArray();
         for (Entry entry : diff(before, after)) {
-            array.put(new JSONObject().put("kind", entry.kind.name().toLowerCase()).put("text", entry.text));
+            java.util.Map<String, Object> value = new java.util.LinkedHashMap<>();
+            value.put("kind", entry.kind.name().toLowerCase());
+            value.put("text", entry.text);
+            array.put(new JSONObject(value));
         }
         return array;
     }
