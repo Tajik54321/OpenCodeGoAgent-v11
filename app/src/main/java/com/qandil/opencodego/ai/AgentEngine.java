@@ -372,7 +372,7 @@ public final class AgentEngine {
         return new JSONObject().put("ok", true).put("deleted", true).put("path", path);
     }
 
-    private JSONObject runtimeStatus() {
+    private JSONObject runtimeStatus() throws Exception {
         JSONArray result = new JSONArray();
         for (RuntimeManager.RuntimeInfo info : runtimes.list()) {
             result.put(new JSONObject().put("name", info.name).put("installed", info.installed)
@@ -408,13 +408,13 @@ public final class AgentEngine {
                 .put("port", handle.port).put("url", handle.url).put("warning", handle.warning);
     }
 
-    private JSONObject serverStop(Project project) {
+    private JSONObject serverStop(Project project) throws Exception {
         permissions.require(project.id, PermissionStore.SERVER);
         servers.stop(project.id);
         return new JSONObject().put("ok", true).put("running", false);
     }
 
-    private JSONObject serverStatus(Project project) {
+    private JSONObject serverStatus(Project project) throws Exception {
         ServerManager.ServerHandle handle = servers.get(project.id);
         boolean running = servers.isRunning(project.id);
         JSONObject result = new JSONObject().put("ok", true).put("running", running);
@@ -423,7 +423,7 @@ public final class AgentEngine {
         return result;
     }
 
-    private JSONObject serverLogs(Project project, JSONObject args) {
+    private JSONObject serverLogs(Project project, JSONObject args) throws Exception {
         permissions.require(project.id, PermissionStore.SERVER);
         int limit = Math.max(1, Math.min(args.optInt("limit", 200), 1_000));
         List<String> lines = servers.logs(project.id);
@@ -470,12 +470,12 @@ public final class AgentEngine {
                 .put("bytes", backup.length());
     }
 
-    private JSONObject auditTail(Project project, JSONObject args) {
+    private JSONObject auditTail(Project project, JSONObject args) throws Exception {
         int limit = Math.max(1, Math.min(args.optInt("limit", 100), 500));
         return new JSONObject().put("ok", true).put("events", new JSONArray(audit.tail(project.id, limit)));
     }
 
-    private JSONObject checkpointList(Project project, JSONObject args) {
+    private JSONObject checkpointList(Project project, JSONObject args) throws Exception {
         permissions.require(project.id, PermissionStore.READ_FILES);
         int limit = Math.max(1, Math.min(args.optInt("limit", 50), 200));
         return new JSONObject().put("ok", true).put("checkpoints", new JSONArray(checkpoints.list(project, limit)));
@@ -585,7 +585,7 @@ public final class AgentEngine {
                 args.optInt("port", 6379), redisPassword(project), required(args, "key")));
     }
 
-    private JSONObject cronList(Project project) {
+    private JSONObject cronList(Project project) throws Exception {
         permissions.require(project.id, PermissionStore.SCHEDULE);
         JSONArray result = new JSONArray();
         for (CronManager.Task task : cron.list(project.id)) {
@@ -597,7 +597,7 @@ public final class AgentEngine {
         return new JSONObject().put("ok", true).put("tasks", result);
     }
 
-    private JSONObject cronSave(Project project, JSONObject args) {
+    private JSONObject cronSave(Project project, JSONObject args) throws Exception {
         permissions.require(project.id, PermissionStore.SCHEDULE);
         permissions.require(project.id, PermissionStore.EXEC_COMMAND);
         JSONArray command = args.optJSONArray("command");
@@ -612,7 +612,7 @@ public final class AgentEngine {
         return new JSONObject().put("ok", true).put("id", task.id).put("nextRunAt", task.nextRunAt);
     }
 
-    private JSONObject cronRun(Project project, JSONObject args) {
+    private JSONObject cronRun(Project project, JSONObject args) throws Exception {
         permissions.require(project.id, PermissionStore.SCHEDULE);
         permissions.require(project.id, PermissionStore.EXEC_COMMAND);
         String id = required(args, "taskId");
@@ -623,7 +623,7 @@ public final class AgentEngine {
         return new JSONObject().put("ok", true).put("result", selected.lastResult);
     }
 
-    private JSONObject buildInspect(Project project) {
+    private JSONObject buildInspect(Project project) throws Exception {
         permissions.require(project.id, PermissionStore.BUILD);
         return new JSONObject().put("ok", true).put("project", builds.inspect(project));
     }
@@ -751,7 +751,7 @@ public final class AgentEngine {
         return result.toString();
     }
 
-    private JSONArray tools(AgentProfile profile) {
+    private JSONArray tools(AgentProfile profile) throws Exception {
         JSONArray tools = new JSONArray();
         boolean readOnly = profile != null && profile.readOnly;
         tools.put(tool("project_info", "Информация о проекте, runtimes и базах", object(), required()));
@@ -895,13 +895,13 @@ public final class AgentEngine {
         return tools;
     }
 
-    private static JSONObject tool(String name, String description, JSONObject parameters, JSONArray required) {
+    private static JSONObject tool(String name, String description, JSONObject parameters, JSONArray required) throws Exception {
         parameters.put("required", required).put("additionalProperties", false);
         return new JSONObject().put("type", "function").put("function", new JSONObject()
                 .put("name", name).put("description", description).put("parameters", parameters));
     }
 
-    private static JSONObject object(JSONObject... properties) {
+    private static JSONObject object(JSONObject... properties) throws Exception {
         JSONObject values = new JSONObject();
         for (JSONObject property : properties) {
             String name = property.optString("__name");
@@ -911,11 +911,11 @@ public final class AgentEngine {
         return new JSONObject().put("type", "object").put("properties", values);
     }
 
-    private static JSONObject property(String name, String type, String description) {
+    private static JSONObject property(String name, String type, String description) throws Exception {
         return new JSONObject().put("__name", name).put("type", type).put("description", description);
     }
 
-    private static JSONObject arrayProperty(String name, String itemType, String description) {
+    private static JSONObject arrayProperty(String name, String itemType, String description) throws Exception {
         return new JSONObject().put("__name", name).put("type", "array")
                 .put("items", new JSONObject().put("type", itemType)).put("description", description);
     }
