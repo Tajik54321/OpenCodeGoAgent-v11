@@ -46,9 +46,7 @@ jobs:
           gradle-version: '9.5.0'
 
       - name: Build debug APK and run lint
-        run: gradle --no-daemon --stacktrace \
-            :app:assembleSideloadDebug :app:lintSideloadDebug \
-            :app:assembleModernDebug :app:lintModernDebug
+        run: gradle --no-daemon --stacktrace :app:assembleSideloadDebug :app:lintSideloadDebug :app:assembleModernDebug :app:lintModernDebug
 
       - name: Create checksums
         run: |
