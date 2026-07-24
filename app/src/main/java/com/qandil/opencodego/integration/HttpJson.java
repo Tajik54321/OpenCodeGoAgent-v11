@@ -31,13 +31,32 @@ public final class HttpJson {
         }
 
         public boolean ok() { return code >= 200 && code < 300; }
-        public JSONObject object() { return new JSONObject(body); }
-        public JSONArray array() { return new JSONArray(body); }
+
+        public JSONObject object() {
+            try {
+                return new JSONObject(body);
+            } catch (Exception error) {
+                throw new IllegalStateException("Invalid JSON object response", error);
+            }
+        }
+
+        public JSONArray array() {
+            try {
+                return new JSONArray(body);
+            } catch (Exception error) {
+                throw new IllegalStateException("Invalid JSON array response", error);
+            }
+        }
+
         public Object json() {
-            String value = body.trim();
-            if (value.startsWith("{")) return new JSONObject(value);
-            if (value.startsWith("[")) return new JSONArray(value);
-            return value;
+            try {
+                String value = body.trim();
+                if (value.startsWith("{")) return new JSONObject(value);
+                if (value.startsWith("[")) return new JSONArray(value);
+                return value;
+            } catch (Exception error) {
+                throw new IllegalStateException("Invalid JSON response", error);
+            }
         }
     }
 
