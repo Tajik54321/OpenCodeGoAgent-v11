@@ -101,7 +101,11 @@ public final class McpClient {
             if (!line.startsWith("data:")) continue;
             String data = line.substring(5).trim();
             if (data.isEmpty() || "[DONE]".equals(data)) continue;
-            last = new JSONObject(data);
+            try {
+                last = new JSONObject(data);
+            } catch (Exception error) {
+                throw new IllegalStateException("Invalid MCP SSE JSON", error);
+            }
         }
         if (last == null) throw new IllegalStateException("MCP SSE response contains no JSON data");
         return last;
@@ -110,12 +114,16 @@ public final class McpClient {
     public static Map<String, String> parseHeaders(String json) {
         Map<String, String> result = new LinkedHashMap<>();
         if (json == null || json.trim().isEmpty()) return result;
-        JSONObject object = new JSONObject(json);
-        java.util.Iterator<String> keys = object.keys();
-        while (keys.hasNext()) {
-            String key = keys.next();
-            result.put(key, object.optString(key, ""));
+        try {
+            JSONObject object = new JSONObject(json);
+            java.util.Iterator<String> keys = object.keys();
+            while (keys.hasNext()) {
+                String key = keys.next();
+                result.put(key, object.optString(key, ""));
+            }
+            return result;
+        } catch (Exception error) {
+            throw new IllegalArgumentException("Invalid MCP headers JSON", error);
         }
-        return result;
     }
 }
