@@ -7,11 +7,11 @@ android {
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.qandil.opencodego"
+        applicationId = "com.qandil.opencodego.exclusive"
         minSdk = 26
         targetSdk = 36
         versionCode = 1100
-        versionName = "11.0.0"
+        versionName = "11.0.0-exclusive"
     }
 
     flavorDimensions += "distribution"
