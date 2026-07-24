@@ -46,14 +46,18 @@ public final class Provider {
     }
 
     public JSONObject jsonWithoutSecret() {
-        return new JSONObject()
-                .put("id", id)
-                .put("name", name)
-                .put("type", type)
-                .put("baseUrl", baseUrl)
-                .put("model", model)
-                .put("headers", headersJson)
-                .put("enabled", enabled);
+        JSONObject json = new JSONObject();
+        try {
+            json.put("id", id);
+            json.put("name", name);
+            json.put("type", type);
+            json.put("baseUrl", baseUrl);
+            json.put("model", model);
+            json.put("headers", headersJson);
+            json.put("enabled", enabled);
+        } catch (Exception ignored) {
+        }
+        return json;
     }
 
     public static Provider from(JSONObject object, String apiKey) {
