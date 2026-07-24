@@ -1,11 +1,9 @@
 package com.qandil.opencodego;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -38,12 +36,7 @@ public final class EditorActivity extends Activity {
 
     @Override public void onCreate(Bundle state) {
         super.onCreate(state);
-        if (Build.VERSION.SDK_INT >= 33) {
-            getOnBackInvokedDispatcher().registerOnBackInvokedCallback(
-                    android.window.OnBackInvokedDispatcher.PRIORITY_DEFAULT,
-                    this::confirmClose);
-        }
-        project = ProjectManager.get(this).find(getIntent().getStringExtra("projectId"));
+project = ProjectManager.get(this).find(getIntent().getStringExtra("projectId"));
         if (project == null) { finish(); return; }
         build();
         String path = getIntent().getStringExtra("path");
@@ -210,7 +203,6 @@ public final class EditorActivity extends Activity {
                 .setNeutralButton("Отмена", null).show();
     }
 
-    @SuppressLint("GestureBackNavigation")
     @Override public void onBackPressed() { confirmClose(); }
 
     private void updateStatus() {

@@ -1,10 +1,8 @@
 package com.qandil.opencodego;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.webkit.ConsoleMessage;
@@ -28,12 +26,7 @@ public final class PreviewActivity extends Activity {
 
     @Override public void onCreate(Bundle state) {
         super.onCreate(state);
-        if (Build.VERSION.SDK_INT >= 33) {
-            getOnBackInvokedDispatcher().registerOnBackInvokedCallback(
-                    android.window.OnBackInvokedDispatcher.PRIORITY_DEFAULT,
-                    this::navigateBack);
-        }
-        build();
+build();
         String url = getIntent().getStringExtra("url");
         if (url == null || url.isEmpty()) url = "about:blank";
         load(url);
@@ -126,7 +119,6 @@ public final class PreviewActivity extends Activity {
         if (webView.canGoBack()) webView.goBack(); else finish();
     }
 
-    @SuppressLint("GestureBackNavigation")
     @Override public void onBackPressed() { navigateBack(); }
 
     @Override protected void onDestroy() {
